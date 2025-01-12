@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visualizar Tabla</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tabla de Excel en GitHub Pages</h1>
+  <table id="data-table"></table>
+
+  <script>
+    window.onload = function() {
+      const url = 'https://www.dropbox.com/scl/fi/vni7f0epqhqpm4291h48m/11-01-2025.xlsx?rlkey=u8nhctpsfrn0ybd4zvkwrj46v&st=08ubjy8d&dl=1'; // Enlace de descarga directa
+      fetch(url)
+        .then(response => response.arrayBuffer())
+        .then(data => {
+          const workbook = XLSX.read(data, { type: 'array' });
+          const sheetName = workbook.SheetNames[0]; // Usa la primera hoja
+          const sheet = workbook.Sheets[sheetName];
+          const html = XLSX.utils.sheet_to_html(sheet); // Convierte la hoja en HTML
+          document.getElementById('data-table').innerHTML = html;
+        })
+        .catch(error => console.error('Error al cargar el archivo:', error));
+    };
+  </script>
+</body>
+</html>
